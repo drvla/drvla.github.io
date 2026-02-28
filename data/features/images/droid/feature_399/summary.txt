@@ -1,0 +1,13 @@
+Feature 399 - Top 10 activating episodes
+SAE: droid_er1, Layer: paligemma.layer_5.output
+
+#1: episode 976, t=291, act=0.5852, task="Open the oven, take the bread out, put it on the plate then close it"
+#2: episode 624, t=87, act=0.5836, task="Sweep the table using the brush and dustpan"
+#3: episode 1513, t=139, act=0.5641, task="Put the knife on the dish rack"
+#4: episode 1156, t=304, act=0.5566, task="Shift the pieces of rope, one after the other, to the laundry basket"
+#5: episode 646, t=165, act=0.5551, task="Pick up then animal plush toy on the counter and put it on the plate"
+#6: episode 556, t=71, act=0.5541, task="Take the lid from the white bowl and place it on the black pot"
+#7: episode 1367, t=379, act=0.5457, task="Pour the contents from the clear bowl into the blue bowl"
+#8: episode 1474, t=111, act=0.5454, task="Put the marker in the cup"
+#9: episode 458, t=149, act=0.5389, task="Get the strawberry toy from the right front plate of the stove and put it in the sink"
+#10: episode 1036, t=286, act=0.5378, task="Put the spoon in the pot"

@@ -1,0 +1,13 @@
+Feature 586 - Top 10 activating episodes
+SAE: droid_er1, Layer: paligemma.layer_5.output
+
+#1: episode 1642, t=179, act=0.3952, task="Place some white sachets in the wooden box."
+#2: episode 1115, t=268, act=0.3887, task="Put a slice of bread into the toaster"
+#3: episode 384, t=180, act=0.3783, task="Fold the towel"
+#4: episode 44, t=227, act=0.3659, task="Take one silver fork from the dish rack and put it on the right side of the countertop."
+#5: episode 1965, t=98, act=0.3609, task="Remove the toy from the silver pot and put it on the table"
+#6: episode 1694, t=205, act=0.3548, task="Pick up the open water bottle and pour its contents  into the small black pot"
+#7: episode 788, t=334, act=0.3463, task="Move the word pieces on the table"
+#8: episode 1504, t=280, act=0.3454, task="Pour the contents on the plate onto the other plate"
+#9: episode 336, t=304, act=0.3404, task="Fold the towel in half"
+#10: episode 881, t=211, act=0.3378, task="Move the soda can to the counter on the left"

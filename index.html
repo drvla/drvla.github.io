@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-596B30WXH7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-596B30WXH7');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drvla</title>
+  <meta name="description" content="We train Sparse Autoencoders on VLA model activations, discovering interpretable features that encode motion primitives, semantics, and episode-specific memorization.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================== Navigation ============================== -->
+  <div class="nav-bar" id="navbar">
+    <span class="nav-brand">&#x1FA7A; Dr.VLA</span>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#abstract">Abstract</a>
+      <a href="#overview">Overview</a>
+      <a href="#general-features">General Features</a>
+      <a href="#feature-viewer">Feature Viewer</a>
+      <a href="#steering">Steering</a>
+      <a href="#classification">Classification</a>
+      <a href="#per-token">Per-Token</a>
+      <a href="#feature-browser">Feature Browser</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ============================== Hero ============================== -->
+    <div class="section-wrapper" id="home">
+      <div class="hero">
+        <p class="hero-logo">&#x1FA7A; Dr.VLA</p>
+        <h1>Sparse Autoencoders Reveal Interpretable and Steerable Features in VLA Models</h1>
+        <p class="authors">
+          Anonymous Authors
+        </p>
+        <p class="equal-contribution">* Equal contribution</p>
+
+        <div class="buttons">
+          <a href="#" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            PDF (coming soon)
+          </a>
+          <a href="#" class="btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            arXiv (coming soon)
+          </a>
+          <a href="#" class="btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code (coming soon)
+          </a>
+        </div>
+
+        <div class="figure">
+          <img src="figures/splash_main.png" alt="Splash figure showing SAE features discovered in VLA models" class="splash-image">
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== Abstract ============================== -->
+    <div class="section-wrapper section-alt" id="abstract">
+      <div class="section">
+        <h2>Abstract</h2>
+        <p class="abstract-tldr">
+          We train Sparse Autoencoders (SAEs) on VLA model activations to discover interpretable features corresponding to motion primitives, semantics, and episode-specific memorization. We show these features causally influence robot behavior through steering experiments, and that fine-tuning on small datasets amplifies memorization while larger datasets or techniques like knowledge insulation promote general features.
+        </p>
+        <details class="abstract-details">
+          <summary>Read full abstract</summary>
+          <div class="abstract-full">
+            <p>
+              Vision-Language-Action (VLA) models have emerged as a promising approach for general-purpose robot manipulation. However, their generalization is inconsistent, while these models can perform impressively in some settings, fine-tuned variants often fail on novel objects, scenes and instructions. To ultimately trust VLAs to operate reliably in everyday environments such as homes we need a mechanistic understanding of what they learn and why they fail. Although interpretability has advanced rapidly for vision-language models, these tools and insights have largely not yet been applied to VLA models.
+            </p>
+            <p>
+              To probe internal representations, we train Sparse Autoencoders (SAEs) on hidden activations from both the language backbone and the action expert. SAEs learn a sparse dictionary whose features act as a compact, interpretable basis for the model's computation. We find that SAEs extract interpretable, general and steerable features corresponding to motion primitives, semantics and episode specific memorization. We categorize features based whether they represent general transferable primitives or episode specific memorization.
+            </p>
+            <p>
+              We validate these findings through steering experiments on the LIBERO benchmark. We show that individual SAE features causally influence robot behavior. In particular, steering memorization features forces the model to reproduce task-specific action sequences, demonstrating that these features encode trajectory-level memorization rather than abstract task structure. In contrast, steering generalization features induces behaviors consistent with their semantic meaning and applicable across tasks and scenes. Our results provide the first mechanistic evidence that VLAs learn generalizable features across tasks and scenes. These results provide mechanistic evidence that VLAs contain both transferable representations and brittle, dataset-specific memorization. We further show that supervised fine-tuning on small robotics datasets disproportionately amplifies memorization, whereas training on larger, more diverse datasets such as DROID appears to promote more general features. Finally, we release an open-source codebase for activation collection, SAE training, and feature steering in VLA models.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ============================== Overview ============================== -->
+    <div class="section-wrapper" id="overview">
+      <div class="section">
+        <h2>Method Overview</h2>
+        <p>
+          We train Sparse Autoencoders (SAEs) on hidden-layer activations from Pi0.5, a state-of-the-art Vision-Language-Action model. SAEs decompose the model's internal representations into sparse, interpretable features. We analyze features from both the PaliGemma language backbone and the action expert across multiple layers, using the LIBERO and DROID benchmarks.
+        </p>
+        <div class="figure wide">
+          <img src="figures/splash.png" alt="SAE training and analysis pipeline">
+          <p class="figure-caption">Figure 1: SAE training and analysis pipeline. We collect activations from Pi0.5's internal layers during rollouts, train sparse autoencoders, and analyze the learned features.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== General Features ============================== -->
+    <div class="section-wrapper section-alt" id="general-features">
+      <div class="section">
+        <h2>General Features</h2>
+        <p>
+          We identify features that activate broadly across episodes, tasks, and scenes -- indicating they encode general motion primitives rather than memorized trajectories. On the LIBERO benchmark, we find 32 general features (out of 2,044 active) in PaliGemma Layer 5.
+        </p>
+
+        <div id="activation-viz"></div>
+      </div>
+    </div>
+
+    <!-- ============================== Interactive Feature Viewer ============================== -->
+    <div class="section-wrapper" id="feature-viewer">
+      <div class="section">
+        <h2>Interactive Feature Viewer</h2>
+        <p class="subtitle">Each feature shows the top 10 most activated episodes with the peak timestep from each episode. Click on an episode to view sampled frames and activation heatmap.</p>
+        <div id="feature-viewer-container">
+          <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== Feature Steering ============================== -->
+    <div class="section-wrapper section-alt" id="steering">
+      <div class="section">
+        <h2>Feature Steering</h2>
+        <p>
+          We validate that SAE features causally influence robot behavior through activation steering. By adding a scaled feature vector to the model's hidden state, we can shift the robot's behavior in predictable ways.
+        </p>
+
+        <div id="steering-viz">
+          <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== Feature Classification ============================== -->
+    <div class="section-wrapper" id="classification">
+      <div class="section">
+        <h2>Feature Classification</h2>
+        <div id="metric-histograms-container"></div>
+        <p class="figure-caption">Distribution of four temporal metrics across all SAE features for each model. Dashed line: mean; dotted line: median. Hover over bars for counts.</p>
+        <p>
+          We develop a logistic-regression classifier to separate general features from memorized ones based on four temporal metrics: onset count, episode coverage, mean activation magnitude, and relative run length.
+        </p>
+
+        <div style="overflow-x: auto;">
+          <table class="classification-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Layer(s)</th>
+                <th># Features</th>
+                <th># General</th>
+                <th># Memorized</th>
+                <th>% Memorized</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6" style="font-style:italic; font-weight:600; background:var(--section-bg);">Pi0.5 -- LIBERO</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>PG5</td>
+                <td>2,044</td>
+                <td>32</td>
+                <td>2,012</td>
+                <td>98.43%</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>PG avg (0, 5, 11, 17)</td>
+                <td>7,175</td>
+                <td>184</td>
+                <td>6,991</td>
+                <td>97.43%</td>
+              </tr>
+              <tr>
+                <td colspan="6" style="font-style:italic; font-weight:600; background:var(--section-bg);">Pi0.5 -- DROID</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>PG5</td>
+                <td>2,046</td>
+                <td>81</td>
+                <td>1,965</td>
+                <td>96.04%</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>PG avg (0, 5, 11, 17)</td>
+                <td>6,649</td>
+                <td>647</td>
+                <td>6,002</td>
+                <td>90.27%</td>
+              </tr>
+              <tr>
+                <td colspan="6" style="font-style:italic; font-weight:600; background:var(--section-bg);">OpenVLA -- LIBERO Goal</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Layer 8</td>
+                <td>1,775</td>
+                <td>9</td>
+                <td>1,766</td>
+                <td>99.49%</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>LM avg (0, 8, 16, 24, 31)</td>
+                <td>9,389</td>
+                <td>48</td>
+                <td>9,341</td>
+                <td>99.49%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Training on small datasets (LIBERO, 40 tasks) produces far fewer general features than training on large, diverse datasets (DROID, 1,545 tasks).
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================== Per-Token SAEs ============================== -->
+    <div class="section-wrapper section-alt" id="per-token">
+      <div class="section">
+        <h2>Per-Token SAEs</h2>
+        <p>
+          We also train SAEs that operate on individual tokens rather than mean-pooled activations, revealing how features specialize across the visual and language token streams.
+        </p>
+        <div id="per-token-viz">
+          <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== Interactive Feature Browser ============================== -->
+    <div class="section-wrapper" id="feature-browser">
+      <div class="section">
+        <h2>Interactive Feature Browser</h2>
+        <p class="subtitle">Browse all 2,048 features from PaliGemma Layer 5</p>
+        <div id="feature-browser-container">
+          <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Loading feature data...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================== Footer ============================== -->
+  <footer class="footer">
+    Built by Dr.VLA team
+  </footer>
+
+  <!-- ============================== Scripts ============================== -->
+  <script src="js/nav.js"></script>
+  <script src="js/activation-viz.js"></script>
+  <script src="js/feature-viewer.js"></script>
+  <script src="js/feature-browser.js"></script>
+  <script src="js/steering-viz.js"></script>
+  <script src="js/per-token-viz.js"></script>
+  <script src="js/metric-histograms.js"></script>
+</body>
+</html>

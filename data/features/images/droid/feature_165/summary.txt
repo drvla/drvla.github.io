@@ -1,0 +1,13 @@
+Feature 165 - Top 10 activating episodes
+SAE: droid_er1, Layer: paligemma.layer_5.output
+
+#1: episode 1125, t=308, act=0.6935, task="Fold the white cloth on the table"
+#2: episode 855, t=72, act=0.6209, task="Take the marker out of the cup and put it on the table"
+#3: episode 340, t=78, act=0.5902, task="Take the marker out of the cup"
+#4: episode 92, t=38, act=0.5863, task="Pour the contents of the clear jar into the pot"
+#5: episode 1506, t=58, act=0.5846, task="Put the used napkin in the orange packet and then the bin"
+#6: episode 1206, t=238, act=0.5673, task="Remove the marker from the yellow mug, put the marker back in the mug, remove the marker from the mug again"
+#7: episode 1065, t=178, act=0.5544, task="Pick up cup and move it slightly forward"
+#8: episode 840, t=216, act=0.5460, task="Unfold the towel on the table."
+#9: episode 1557, t=42, act=0.5448, task="Pick up the wooden block and move it slightly to the right."
+#10: episode 587, t=458, act=0.5406, task="Place the yellow, green and orange blocks inside the measuring cup"
