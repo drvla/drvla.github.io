@@ -1,0 +1,13 @@
+Feature 158 - Top 10 activating episodes
+SAE: droid_er1, Layer: paligemma.layer_5.output
+
+#1: episode 193, t=621, act=0.4903, task="droid_task"
+#2: episode 1437, t=56, act=0.4812, task="Put the cup in the bowl"
+#3: episode 1144, t=113, act=0.4765, task="Lift the pink laundry then fold it and put it in the plastic bag"
+#4: episode 1091, t=310, act=0.4763, task="Put the clothes in the plastic bags"
+#5: episode 1411, t=128, act=0.4720, task="Put the carrot plush toy in the pot"
+#6: episode 667, t=102, act=0.4712, task="Push the basketball between the two cups"
+#7: episode 525, t=515, act=0.4620, task="Put the blocks in the bowl"
+#8: episode 647, t=85, act=0.4607, task="Put the orange cup inside the black bowl"
+#9: episode 1637, t=652, act=0.4602, task="Take everything out of the plastic bag"
+#10: episode 1539, t=278, act=0.4527, task="droid_task"
