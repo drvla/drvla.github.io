@@ -22,12 +22,12 @@
   var BENCHMARKS = {
     libero: {
       label: 'LIBERO',
-      episodes: [100, 745, 1000, 5],
+      episodes: [5, 100, 745, 1000],
       basePath: 'data/activations/libero'
     },
     droid: {
       label: 'DROID',
-      episodes: [1437, 1125, 976, 1183],
+      episodes: [976, 1125, 1183, 1437],
       basePath: 'data/activations/droid'
     }
   };
