@@ -2148,3 +2148,93 @@ main {
     font-size: 0.6rem;
   }
 }
+
+/* ============================================================
+   Manual Token-Feature Heatmap (mh-*)
+   ============================================================ */
+
+#manual-heatmap-viz {
+  min-height: 200px;
+}
+
+/* Wider labels for manual heatmap (token name + feature ID) */
+#manual-heatmap-viz .heatmap-label.mh-label {
+  width: 110px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding-right: 8px;
+}
+
+.mh-token-name {
+  color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mh-fid {
+  font-weight: 600;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* Align image strip and separator with the wider labels */
+#manual-heatmap-viz .image-strip.mh-image-strip {
+  margin-left: 110px;
+}
+
+/* Separator between feature groups */
+.mh-sep {
+  height: 1px;
+  background: var(--card-border);
+  margin: 6px 0 6px 110px;
+}
+
+/* Normalize toggle */
+.mh-normalize {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.mh-normalize label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mh-normalize input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+/* Responsive manual heatmap overrides */
+@media (max-width: 900px) {
+  #manual-heatmap-viz .heatmap-label.mh-label {
+    width: 90px;
+  }
+  #manual-heatmap-viz .image-strip.mh-image-strip {
+    margin-left: 90px;
+  }
+  .mh-sep {
+    margin-left: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  #manual-heatmap-viz .heatmap-label.mh-label {
+    width: 70px;
+    font-size: 0.65rem;
+    padding-right: 4px;
+  }
+  #manual-heatmap-viz .image-strip.mh-image-strip {
+    margin-left: 70px;
+  }
+  .mh-sep {
+    margin-left: 70px;
+  }
+  .mh-fid {
+    font-size: 0.6rem;
+  }
+}
