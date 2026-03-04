@@ -245,9 +245,9 @@
       <div class="section">
         <h2>Per-Token SAEs</h2>
         <p>
-          We also train SAEs that operate on individual tokens rather than mean-pooled activations, revealing how features specialize across the visual and language token streams.
+          We group SAE feature activations by feature across multiple token streams, revealing how each feature distributes its activation across image and text tokens over time. Rows within each feature group are ordered with image tokens first, followed by text tokens sorted by peak activation.
         </p>
-        <div id="per-token-viz">
+        <div id="manual-heatmap-viz">
           <div class="loading-placeholder">
             <div class="spinner"></div>
             <p>Loading...</p>
@@ -283,7 +283,7 @@
   <script src="js/feature-viewer.js"></script>
   <script src="js/feature-browser.js"></script>
   <script src="js/steering-viz.js"></script>
-  <script src="js/per-token-viz.js"></script>
+  <script src="js/manual-heatmap-viz.js"></script>
   <script src="js/metric-histograms.js"></script>
 </body>
 </html>
