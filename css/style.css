@@ -1044,6 +1044,21 @@ main {
   color: var(--text);
 }
 
+.fb-card-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+
+.fb-detail-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
 .fb-card-stats {
   display: flex;
   flex-wrap: wrap;
@@ -1416,6 +1431,10 @@ main {
   font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.8;
+}
+
+.faq-item + .faq-item {
+  margin-top: 8px;
 }
 
 /* ============================================================
