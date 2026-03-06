@@ -257,6 +257,8 @@
       feature_id: raw.id,
       classification: raw.classification,
       has_images: raw.has_images,
+      human_label: raw.human_label || null,
+      human_description: raw.human_description || null,
       episode_coverage: s.episode_coverage ?? 0,
       mean_onset_count: s.mean_onset_count ?? 0,
       mean_nonzero_activation: s.mean_nonzero_activation ?? 0,
@@ -317,7 +319,14 @@
       onsets:     (a, b) => (b.mean_onset_count ?? 0)          - (a.mean_onset_count ?? 0),
       activation: (a, b) => (b.mean_nonzero_activation ?? 0)   - (a.mean_nonzero_activation ?? 0),
       run_length: (a, b) => (b.mean_relative_run_length ?? 0)   - (a.mean_relative_run_length ?? 0),
-      id:         (a, b) => (a.feature_id ?? 0)                - (b.feature_id ?? 0)
+      id:         (a, b) => (a.feature_id ?? 0)                - (b.feature_id ?? 0),
+      human_label: (a, b) => {
+        // Features with labels first, then by feature ID
+        var aHas = a.human_label ? 1 : 0;
+        var bHas = b.human_label ? 1 : 0;
+        if (aHas !== bHas) return bHas - aHas;
+        return (a.feature_id ?? 0) - (b.feature_id ?? 0);
+      }
     };
     const sortFn = sorters[state.sortBy] || sorters.coverage;
     list.sort(sortFn);
@@ -375,6 +384,7 @@
               <option value="activation"${state.sortBy === 'activation' ? ' selected' : ''}>Activation (high)</option>
               <option value="run_length"${state.sortBy === 'run_length' ? ' selected' : ''}>Run Length (high)</option>
               <option value="id"${state.sortBy === 'id' ? ' selected' : ''}>Feature ID</option>
+              <option value="human_label"${state.sortBy === 'human_label' ? ' selected' : ''}>Human Label</option>
             </select>
           </div>
 
@@ -445,12 +455,17 @@
       expandedHTML = renderExpandedDetail(feature);
     }
 
+    const labelHTML = feature.human_label
+      ? `<div class="fb-card-label">${feature.human_label}</div>`
+      : '';
+
     return `
       <div class="fb-card${isExpanded ? ' fb-card--expanded' : ''}" data-fid="${fid}">
         <div class="fb-card-header">
           <span class="fb-card-title">Feature ${fid}</span>
           ${badgeHTML(feature.classification)}
         </div>
+        ${labelHTML}
         ${statsRow}
         ${thumbsHTML}
         ${expandedHTML}
@@ -512,8 +527,16 @@
       episodesHTML = `<div class="fb-detail-episodes">${cards}</div>`;
     }
 
+    const descriptionHTML = feature.human_description
+      ? `<div class="fb-detail-section">
+          <h4>Description</h4>
+          <p class="fb-detail-description">${feature.human_description}</p>
+        </div>`
+      : '';
+
     return `
       <div class="fb-detail">
+        ${descriptionHTML}
         <div class="fb-detail-section">
           <h4>Full Statistics</h4>
           ${statsTable}

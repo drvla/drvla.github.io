@@ -26,6 +26,7 @@
     <nav>
       <a href="#home">Home</a>
       <a href="#abstract">Abstract</a>
+      <a href="#faq">FAQ</a>
       <a href="#overview">Overview</a>
       <a href="#general-features">General Features</a>
       <a href="#feature-viewer">Feature Viewer</a>
@@ -80,21 +81,59 @@
           <summary>Read full abstract</summary>
           <div class="abstract-full">
             <p>
-              Vision-Language-Action (VLA) models have emerged as a promising approach for general-purpose robot manipulation. However, their generalization is inconsistent, while these models can perform impressively in some settings, fine-tuned variants often fail on novel objects, scenes and instructions. To ultimately trust VLAs to operate reliably in everyday environments such as homes we need a mechanistic understanding of what they learn and why they fail. Although interpretability has advanced rapidly for vision-language models, these tools and insights have largely not yet been applied to VLA models.
-            </p>
-            <p>
-              To probe internal representations, we train Sparse Autoencoders (SAEs) on hidden activations from both the language backbone and the action expert. SAEs learn a sparse dictionary whose features act as a compact, interpretable basis for the model's computation. We find that SAEs extract interpretable, general and steerable features corresponding to motion primitives, semantics and episode specific memorization. We categorize features based whether they represent general transferable primitives or episode specific memorization.
-            </p>
-            <p>
-              We validate these findings through steering experiments on the LIBERO benchmark. We show that individual SAE features causally influence robot behavior. In particular, steering memorization features forces the model to reproduce task-specific action sequences, demonstrating that these features encode trajectory-level memorization rather than abstract task structure. In contrast, steering generalization features induces behaviors consistent with their semantic meaning and applicable across tasks and scenes. Our results provide the first mechanistic evidence that VLAs learn generalizable features across tasks and scenes. These results provide mechanistic evidence that VLAs contain both transferable representations and brittle, dataset-specific memorization. We further show that supervised fine-tuning on small robotics datasets disproportionately amplifies memorization, whereas training on larger, more diverse datasets such as DROID appears to promote more general features. Finally, we release an open-source codebase for activation collection, SAE training, and feature steering in VLA models.
+              Vision-Language-Action (VLA) models have emerged as a promising approach for general-purpose robot manipulation. However, their generalization is inconsistent, while these models can perform impressively in some settings, fine-tuned variants often fail on novel objects, scenes, and instructions. We apply mechanistic interpretability techniques to better understand the inner workings of VLA models. To probe internal representations, we train Sparse Autoencoders (SAEs) on hidden layer activations from both the language backbone and the action expert. SAEs learn a sparse dictionary whose features act as a compact, interpretable basis for the model's computation. We find that SAEs extract interpretable, general, and steerable features corresponding to motion primitives, semantics, and episode-specific memorization. We categorize features according to whether they represent generalizable transferable primitives or episode-specific memorization. We validate these findings through steering experiments on the LIBERO benchmark. We show that individual SAE features causally influence robot behavior. Steering "generalization" features induce behaviors consistent with their semantic meaning and applicable across tasks and scenes. Our results provide the first mechanistic evidence that VLAs learn generalizable features across tasks and scenes. These results provide mechanistic evidence that VLAs contain both transferable representations and brittle, dataset-specific memorization. We further show that supervised fine-tuning on small robotics datasets disproportionately amplifies memorization, whereas training on larger, more diverse datasets, such as DROID, or leveraging techniques like knowledge insulation appear to promote more general features. Finally, we release an open-source codebase for activation collection, SAE training, and feature steering in VLA models.
             </p>
           </div>
         </details>
       </div>
     </div>
 
+    <!-- ============================== FAQ ============================== -->
+    <div class="section-wrapper" id="faq">
+      <div class="section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="abstract-details faq-item">
+          <summary>What does an SAE feature represent, and is it guaranteed to be a single concept?</summary>
+          <div class="abstract-full">
+            <p>
+              An SAE feature is a learned latent direction that activates sparsely to help reconstruct a model's internal activations. Concretely, the SAE learns a dictionary where each feature corresponds to one basis direction in activation space, and a given activation vector is represented by a sparse linear combination of these features. In LLMs, many features are strikingly interpretable and can align with localized concepts, but this is not guaranteed. Because there is no theoretical guarantee that a learned direction corresponds to a single human concept, we treat interpretability as an empirical property. We evaluate it by (i) inspecting the highest-activating episodes/timesteps and checking whether the activating contexts share a coherent explanation, and (ii) performing interventions: steering along a feature direction and testing whether it produces predictable, causal changes in model outputs. We assess robustness by training multiple SAEs with different random seeds and verifying that common features reappear.
+            </p>
+          </div>
+        </details>
+
+        <details class="abstract-details faq-item">
+          <summary>Why use SAEs instead of PCA, linear probes, or direct MLP activations?</summary>
+          <div class="abstract-full">
+            <p>
+              PCA is a global linear decomposition optimized for variance, not interpretability or sparsity. In our preliminary research, we found that PCA decompositions of the activations were not interpretable with respect to episode, task, sub-task, or episode completion. The same applies to inspecting MLP weights directly, as these often exhibit a high degree of superposition among concepts. While linear probes are an excellent choice when supervision data is available, the unsupervised nature of SAEs makes them superior for our exploratory purposes. Our approach is ultimately pragmatic; we aim to use SAEs to identify properties of VLAs that warrant further study.
+            </p>
+          </div>
+        </details>
+
+        <details class="abstract-details faq-item">
+          <summary>Are SAEs only for LLMs? How can they work with VLAs, which process many different input types?</summary>
+          <div class="abstract-full">
+            <p>
+              SAEs were popularized as a tool for mechanistic interpretability of transformers, but the approach is not language-specific: it is a generic dictionary-learning method over activation vectors. Recent work has extended SAE analysis to multimodal settings, and emerging VLA interpretability work already uses SAE-like interventions to steer action-level behavior. Traditionally, SAEs are trained on a per-token level. However, we find that, for robotics data, the natural base unit is the timestep, which spans many tokens in a VLA model.
+            </p>
+          </div>
+        </details>
+
+        <details class="abstract-details faq-item">
+          <summary>What makes this analysis useful if we are not directly improving policy performance?</summary>
+          <div class="abstract-full">
+            <p>
+              Mechanistic interpretability can be important even when it does not immediately increase policy performance. With VLAs, especially in their applications to home robotics, safety must go far beyond collision avoidance and stability to a more contextual safety. Understanding how VLAs function is paramount to building the trust required to place them into people's homes. Our feature quantification pipeline allows us to evaluate the generality of a model's features without ever running a single rollout. In this way, we hope interpretability can guide future improvements, even when the immediate goal is understanding rather than performance.
+            </p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
     <!-- ============================== Overview ============================== -->
-    <div class="section-wrapper" id="overview">
+    <div class="section-wrapper section-alt" id="overview">
       <div class="section">
         <h2>Method Overview</h2>
         <p>
@@ -108,7 +147,7 @@
     </div>
 
     <!-- ============================== General Features ============================== -->
-    <div class="section-wrapper section-alt" id="general-features">
+    <div class="section-wrapper" id="general-features">
       <div class="section">
         <h2>General Features</h2>
         <p>
@@ -120,7 +159,7 @@
     </div>
 
     <!-- ============================== Interactive Feature Viewer ============================== -->
-    <div class="section-wrapper" id="feature-viewer">
+    <div class="section-wrapper section-alt" id="feature-viewer">
       <div class="section">
         <h2>Interactive Feature Viewer</h2>
         <p class="subtitle">Each feature shows the top 10 most activated episodes with the peak timestep from each episode. Click on an episode to view sampled frames and activation heatmap.</p>
@@ -134,7 +173,7 @@
     </div>
 
     <!-- ============================== Feature Steering ============================== -->
-    <div class="section-wrapper section-alt" id="steering">
+    <div class="section-wrapper" id="steering">
       <div class="section">
         <h2>Feature Steering</h2>
         <p>
@@ -151,7 +190,7 @@
     </div>
 
     <!-- ============================== Feature Classification ============================== -->
-    <div class="section-wrapper" id="classification">
+    <div class="section-wrapper section-alt" id="classification">
       <div class="section">
         <h2>Feature Classification</h2>
         <div id="metric-histograms-container"></div>
@@ -257,7 +296,7 @@
     </div>
 
     <!-- ============================== Per-Token SAEs ============================== -->
-    <div class="section-wrapper section-alt" id="per-token">
+    <div class="section-wrapper" id="per-token">
       <div class="section">
         <h2>Per-Token SAEs</h2>
         <p>
@@ -273,7 +312,7 @@
     </div>
 
     <!-- ============================== Interactive Feature Browser ============================== -->
-    <div class="section-wrapper" id="feature-browser">
+    <div class="section-wrapper section-alt" id="feature-browser">
       <div class="section">
         <h2>Interactive Feature Browser</h2>
         <p class="subtitle">Browse all 2,048 features from PaliGemma Layer 5</p>
