@@ -1488,6 +1488,15 @@ main {
   color: #fff;
 }
 
+.viz-toggle-btn--active-mem {
+  background: #dc2626;
+  color: #fff;
+}
+
+.viz-toggle-btn--active-mem:hover {
+  color: #fff;
+}
+
 /* Episode tab pills */
 .viz-episode-tabs {
   display: flex;

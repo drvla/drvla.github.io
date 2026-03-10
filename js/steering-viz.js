@@ -181,17 +181,19 @@
     }
 
     // X-axis ticks
-    var xTicks = [0, 50, 100, 150];
+    var xTicks = [0, 50, 100, 150, 200, 250, 300];
     for (var xi = 0; xi < xTicks.length; xi++) {
       var xPos = scales.xScale(xTicks[xi]);
       svg += '<line x1="' + xPos.toFixed(1) + '" y1="' + CHART_PAD.top + '" x2="' + xPos.toFixed(1) + '" y2="' + (CHART_PAD.top + plotH) + '" stroke="#e0e0e0" stroke-width="0.5"/>';
       svg += '<text x="' + xPos.toFixed(1) + '" y="' + (CHART_H - 6) + '" class="sv-tick-label" text-anchor="middle">' + xTicks[xi] + '</text>';
     }
 
-    // Steering onset line
-    var onsetX = scales.xScale(feature.start_step);
-    svg += '<line x1="' + onsetX.toFixed(1) + '" y1="' + CHART_PAD.top + '" x2="' + onsetX.toFixed(1) + '" y2="' + (CHART_PAD.top + plotH) + '" class="sv-onset-line"/>';
-    svg += '<text x="' + (onsetX + 2).toFixed(1) + '" y="' + (CHART_PAD.top + 10) + '" class="sv-onset-label">steer</text>';
+    // Steering onset line (only shown when steering starts after step 0)
+    if (feature.start_step > 0) {
+      var onsetX = scales.xScale(feature.start_step);
+      svg += '<line x1="' + onsetX.toFixed(1) + '" y1="' + CHART_PAD.top + '" x2="' + onsetX.toFixed(1) + '" y2="' + (CHART_PAD.top + plotH) + '" class="sv-onset-line"/>';
+      svg += '<text x="' + (onsetX + 2).toFixed(1) + '" y="' + (CHART_PAD.top + 10) + '" class="sv-onset-label">steer</text>';
+    }
 
     // Trajectory paths for each task
     for (var ti = 0; ti < feature.tasks.length; ti++) {
@@ -226,12 +228,15 @@
 
   function renderFeatureToggle(feature) {
     var html = '<div class="viz-toggle sv-feature-toggle">';
-    var featureIds = Object.keys(steeringData.features);
+    var featureIds = steeringData.feature_order || Object.keys(steeringData.features);
     for (var i = 0; i < featureIds.length; i++) {
       var fid = featureIds[i];
       var f = steeringData.features[fid];
-      var active = fid === state.featureId ? ' viz-toggle-btn--active' : '';
-      html += '<button class="viz-toggle-btn' + active + '" data-fid="' + fid + '">F' + fid + ' (' + f.short_label + ')</button>';
+      var isActive = fid === state.featureId;
+      var isMem = f.classification === 'memorized';
+      var cls = 'viz-toggle-btn';
+      if (isActive) cls += isMem ? ' viz-toggle-btn--active-mem' : ' viz-toggle-btn--active';
+      html += '<button class="' + cls + '" data-fid="' + fid + '">F' + fid + ' (' + f.short_label + ')</button>';
     }
     html += '</div>';
     return html;
