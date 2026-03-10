@@ -73,6 +73,15 @@
     return `data/features/images/${featureId}/ep${episodeId}_t${timestep}_${camera}.png`;
   }
 
+  /**
+   * Build a browser_frame path for fallback thumbnails.
+   */
+  function browserFramePath(episodeId, frameIdx) {
+    var pad = String(frameIdx);
+    while (pad.length < 3) pad = '0' + pad;
+    return BROWSER_FRAMES_BASE + '/ep' + episodeId + '/frame_' + pad + '_main.jpg';
+  }
+
   // ------------------------------------------------------------------
   // Browser trace cache and loader
   // ------------------------------------------------------------------
@@ -275,7 +284,9 @@
         bin_edges: h.bin_edges || [],
         counts: h.bin_counts || []
       },
-      top_episodes: raw.top_episodes || []
+      top_episodes: (raw.top_episodes || []).map(function(ep) {
+        return Object.assign({}, ep, { nearest_frame: ep.nearest_frame });
+      })
     };
   }
 
@@ -311,6 +322,8 @@
       list = list.filter(f => f.classification === 'general');
     } else if (state.filterBy === 'memorized') {
       list = list.filter(f => f.classification === 'memorized');
+    } else if (state.filterBy === 'labeled') {
+      list = list.filter(f => f.human_label != null);
     }
 
     // -- Sort --
@@ -319,14 +332,7 @@
       onsets:     (a, b) => (b.mean_onset_count ?? 0)          - (a.mean_onset_count ?? 0),
       activation: (a, b) => (b.mean_nonzero_activation ?? 0)   - (a.mean_nonzero_activation ?? 0),
       run_length: (a, b) => (b.mean_relative_run_length ?? 0)   - (a.mean_relative_run_length ?? 0),
-      id:         (a, b) => (a.feature_id ?? 0)                - (b.feature_id ?? 0),
-      human_label: (a, b) => {
-        // Features with labels first, then by feature ID
-        var aHas = a.human_label ? 1 : 0;
-        var bHas = b.human_label ? 1 : 0;
-        if (aHas !== bHas) return bHas - aHas;
-        return (a.feature_id ?? 0) - (b.feature_id ?? 0);
-      }
+      id:         (a, b) => (a.feature_id ?? 0)                - (b.feature_id ?? 0)
     };
     const sortFn = sorters[state.sortBy] || sorters.coverage;
     list.sort(sortFn);
@@ -384,7 +390,6 @@
               <option value="activation"${state.sortBy === 'activation' ? ' selected' : ''}>Activation (high)</option>
               <option value="run_length"${state.sortBy === 'run_length' ? ' selected' : ''}>Run Length (high)</option>
               <option value="id"${state.sortBy === 'id' ? ' selected' : ''}>Feature ID</option>
-              <option value="human_label"${state.sortBy === 'human_label' ? ' selected' : ''}>Human Label</option>
             </select>
           </div>
 
@@ -394,6 +399,7 @@
               <label><input type="radio" name="fb-filter" value="all"${state.filterBy === 'all' ? ' checked' : ''} /> All</label>
               <label><input type="radio" name="fb-filter" value="general"${state.filterBy === 'general' ? ' checked' : ''} /> General</label>
               <label><input type="radio" name="fb-filter" value="memorized"${state.filterBy === 'memorized' ? ' checked' : ''} /> Memorized</label>
+              <label><input type="radio" name="fb-filter" value="labeled"${state.filterBy === 'labeled' ? ' checked' : ''} /> Labeled</label>
             </div>
           </div>
         </div>
@@ -436,17 +442,23 @@
     // Thumbnail images (top 3 episodes, main camera only)
     let thumbsHTML = '';
     const topEps = (feature.top_episodes || []).slice(0, 3);
-    if (feature.has_images && topEps.length > 0) {
-      const imgs = topEps.map(ep =>
-        `<img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'main')}"
-              alt="F${fid} ep${ep.episode_id}" loading="lazy" class="fb-thumb" />`
-      ).join('');
-      thumbsHTML = `<div class="fb-thumbs">${imgs}</div>`;
-    } else if (topEps.length > 0) {
-      const lines = topEps.map(ep =>
-        `<div class="fb-ep-text">Ep ${ep.episode_id}, t=${ep.timestep} -- ${ep.task || ''}</div>`
-      ).join('');
-      thumbsHTML = `<div class="fb-ep-text-list">${lines}</div>`;
+    if (topEps.length > 0) {
+      let imgs;
+      if (feature.has_images) {
+        imgs = topEps.map(ep =>
+          `<img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'main')}"
+                alt="F${fid} ep${ep.episode_id}" loading="lazy" class="fb-thumb" />`
+        ).join('');
+      } else {
+        // Fallback: use browser_frames at nearest sampled frame
+        imgs = topEps.filter(ep => ep.nearest_frame != null).map(ep =>
+          `<img src="${browserFramePath(ep.episode_id, ep.nearest_frame)}"
+                alt="F${fid} ep${ep.episode_id}" loading="lazy" class="fb-thumb" />`
+        ).join('');
+      }
+      if (imgs) {
+        thumbsHTML = `<div class="fb-thumbs">${imgs}</div>`;
+      }
     }
 
     // Expanded detail
@@ -503,16 +515,24 @@
     let episodesHTML = '';
     if (topEps.length > 0) {
       const cards = topEps.map(ep => {
-        const hasImg = feature.has_images;
         const isSelected = state.expandedEpisodeId === ep.episode_id;
         const selectedClass = isSelected ? ' fb-detail-ep--selected' : '';
-        const imgHTML = hasImg ? `
-          <div class="fb-detail-images">
-            <img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'main')}"
-                 alt="Main camera" loading="lazy" />
-            <img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'wrist')}"
-                 alt="Wrist camera" loading="lazy" />
-          </div>` : '';
+        let imgHTML = '';
+        if (feature.has_images) {
+          imgHTML = `
+            <div class="fb-detail-images">
+              <img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'main')}"
+                   alt="Main camera" loading="lazy" />
+              <img src="${thumbPath(fid, ep.episode_id, ep.timestep, 'wrist')}"
+                   alt="Wrist camera" loading="lazy" />
+            </div>`;
+        } else if (ep.nearest_frame != null) {
+          imgHTML = `
+            <div class="fb-detail-images">
+              <img src="${browserFramePath(ep.episode_id, ep.nearest_frame)}"
+                   alt="Main camera" loading="lazy" />
+            </div>`;
+        }
         return `
           <div class="fb-detail-ep fb-detail-ep--clickable${selectedClass}"
                data-episode-id="${ep.episode_id}"
