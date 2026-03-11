@@ -30,7 +30,7 @@
         episode_coverage: 0.996,
         mean_onset_count: 2.54,
         mean_nonzero_activation: 0.348,
-        mean_relative_run_length: 0.235
+        mean_relative_run_length: 0.200
       },
       classification: 'general',
       color: '#3478f6',
@@ -57,7 +57,7 @@
         episode_coverage: 0.995,
         mean_onset_count: 1.45,
         mean_nonzero_activation: 0.157,
-        mean_relative_run_length: 0.419
+        mean_relative_run_length: 0.218
       },
       classification: 'general',
       color: '#e53e3e',
@@ -84,7 +84,7 @@
         episode_coverage: 0.999,
         mean_onset_count: 2.40,
         mean_nonzero_activation: 0.422,
-        mean_relative_run_length: 0.216
+        mean_relative_run_length: 0.182
       },
       classification: 'general',
       color: '#38a169',
@@ -111,7 +111,7 @@
         episode_coverage: 0.996,
         mean_onset_count: 2.34,
         mean_nonzero_activation: 0.363,
-        mean_relative_run_length: 0.254
+        mean_relative_run_length: 0.217
       },
       classification: 'general',
       color: '#d69e2e',
