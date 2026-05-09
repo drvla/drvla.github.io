@@ -26,46 +26,61 @@
   // State
   // ------------------------------------------------------------------
 
+  // Dataset registry: maps dataset key -> { jsonPath, videoDir(fid) -> path-prefix, label }
+  var DATASETS = {
+    droid: {
+      label: 'DROID (real robot)',
+      jsonPath: 'data/steering/steering_data_droid.json',
+      videoDir: function (fid) { return 'data/steering/f' + fid + '_droid'; },
+    },
+    libero: {
+      label: 'LIBERO (simulation)',
+      jsonPath: 'data/steering/steering_data.json',
+      videoDir: function (fid) { return 'data/steering/f' + fid; },
+    }
+  };
+  var DATASET_ORDER = ['droid', 'libero'];
+
   var state = {
-    featureId: '128',
+    dataset: 'droid',     // default to DROID
+    featureId: null,      // resolved on first render from dataset's feature_order[0]
     taskIdx: 0,
     playing: false,
     currentStep: 0,
     speed: 1.0
   };
 
-  var steeringData = null;
+  // steeringDataByDataset[key] is null until loaded, then the parsed JSON.
+  var steeringDataByDataset = { droid: null, libero: null };
   var baselineVideo = null;
   var steeredVideo = null;
   var rafId = null;
+
+  function steeringData() { return steeringDataByDataset[state.dataset]; }
 
   // ------------------------------------------------------------------
   // Data loading
   // ------------------------------------------------------------------
 
-  function loadData(callback) {
-    if (steeringData) {
-      callback(steeringData);
+  function loadDataset(dsKey, callback) {
+    if (steeringDataByDataset[dsKey]) {
+      callback(steeringDataByDataset[dsKey]);
       return;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data/steering/steering_data.json');
+    xhr.open('GET', DATASETS[dsKey].jsonPath);
     xhr.onload = function () {
       if (xhr.status === 200) {
         var parsed;
-        try {
-          parsed = JSON.parse(xhr.responseText);
-        } catch (e) {
-          callback(null, 'JSON parse error: ' + e.message);
-          return;
-        }
-        steeringData = parsed;
-        callback(steeringData, null);
+        try { parsed = JSON.parse(xhr.responseText); }
+        catch (e) { callback(null, 'JSON parse error in ' + dsKey + ': ' + e.message); return; }
+        steeringDataByDataset[dsKey] = parsed;
+        callback(parsed, null);
       } else {
-        callback(null, 'HTTP ' + xhr.status + ' fetching steering_data.json');
+        callback(null, 'HTTP ' + xhr.status + ' fetching ' + DATASETS[dsKey].jsonPath);
       }
     };
-    xhr.onerror = function () { callback(null, 'Network error fetching steering_data.json'); };
+    xhr.onerror = function () { callback(null, 'Network error fetching ' + DATASETS[dsKey].jsonPath); };
     xhr.send();
   }
 
@@ -76,11 +91,11 @@
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
   function getFeature() {
-    var feature = steeringData.features[state.featureId];
+    var feature = steeringData().features[state.featureId];
     if (feature === undefined) {
       throw new Error(
         '[steering-viz] Unknown featureId "' + state.featureId + '". ' +
-        'Valid IDs: ' + Object.keys(steeringData.features).join(', ')
+        'Valid IDs: ' + Object.keys(steeringData().features).join(', ')
       );
     }
     return feature;
@@ -108,7 +123,7 @@
 
   function computeScales(feature, axisIdx) {
     var yMin = Infinity, yMax = -Infinity;
-    var maxX = steeringData.max_plot_steps;
+    var maxX = steeringData().max_plot_steps;
 
     for (var ti = 0; ti < feature.tasks.length; ti++) {
       var task = feature.tasks[ti];
@@ -228,10 +243,10 @@
 
   function renderFeatureToggle(feature) {
     var html = '<div class="viz-toggle sv-feature-toggle">';
-    var featureIds = steeringData.feature_order || Object.keys(steeringData.features);
+    var featureIds = steeringData().feature_order || Object.keys(steeringData().features);
     for (var i = 0; i < featureIds.length; i++) {
       var fid = featureIds[i];
-      var f = steeringData.features[fid];
+      var f = steeringData().features[fid];
       var isActive = fid === state.featureId;
       var isMem = f.classification === 'memorized';
       var cls = 'viz-toggle-btn';
@@ -253,15 +268,35 @@
   }
 
   function renderDescription(feature) {
+    if (!feature.description) return '';
     return '<p class="sv-description">' + feature.description + '</p>';
+  }
+
+  function renderDatasetToggle() {
+    // Wrapping div is display:block so the inline-flex toggle below sits on
+    // its own line, above the feature toggle.
+    var html = '<div style="display:block; margin-bottom:12px;">';
+    html += '<div class="viz-toggle sv-dataset-toggle">';
+    for (var i = 0; i < DATASET_ORDER.length; i++) {
+      var k = DATASET_ORDER[i];
+      var isActive = k === state.dataset;
+      var cls = 'viz-toggle-btn' + (isActive ? ' viz-toggle-btn--active' : '');
+      html += '<button class="' + cls + '" data-dataset="' + k + '">' + DATASETS[k].label + '</button>';
+    }
+    html += '</div></div>';
+    return html;
   }
 
   function renderVideoPair(feature, task) {
     var fid = state.featureId;
-    var basePath = 'data/steering/f' + fid + '/' + task.id;
+    var basePath = DATASETS[state.dataset].videoDir(fid) + '/' + task.id;
 
-    var baseLabel = 'Baseline' + (task.baseline.success ? ' <span class="sv-success">(success)</span>' : ' <span class="sv-fail">(fail)</span>');
-    var steeredLabel = 'Steered alpha=' + feature.alpha + (task.steered.success ? ' <span class="sv-success">(success)</span>' : ' <span class="sv-fail">(fail)</span>');
+    function successTag(s) {
+      if (s === null || s === undefined) return '';
+      return s ? ' <span class="sv-success">(success)</span>' : ' <span class="sv-fail">(fail)</span>';
+    }
+    var baseLabel = 'Baseline' + successTag(task.baseline.success);
+    var steeredLabel = 'Steered alpha=' + feature.alpha + successTag(task.steered.success);
 
     var html = '<div class="sv-video-pair">';
 
@@ -324,12 +359,22 @@
   function render() {
     var container = document.getElementById('steering-viz');
     if (!container) { console.error('[steering-viz] #steering-viz container not found in DOM'); return; }
-    if (!steeringData) { console.error('[steering-viz] render() called before steeringData loaded'); return; }
+    if (!steeringData()) { console.error('[steering-viz] render() called before steering data for ' + state.dataset + ' loaded'); return; }
+    // Resolve featureId/taskIdx if invalid for the current dataset (e.g. after toggle)
+    var allFeatures = steeringData().features;
+    if (!state.featureId || !allFeatures[state.featureId]) {
+      var featOrder = steeringData().feature_order || Object.keys(allFeatures);
+      state.featureId = featOrder[0];
+      state.taskIdx = 0;
+    } else if (state.taskIdx >= allFeatures[state.featureId].tasks.length) {
+      state.taskIdx = 0;
+    }
 
     var feature = getFeature();
     var task = getTask();
 
     var html = '';
+    html += renderDatasetToggle();
     html += renderFeatureToggle(feature);
     html += renderTaskTabs(feature);
     html += renderDescription(feature);
@@ -350,6 +395,28 @@
 
   function attachEventHandlers() {
     var container = document.getElementById('steering-viz');
+
+    // Dataset toggle
+    var dsBtns = container.querySelectorAll('.sv-dataset-toggle .viz-toggle-btn');
+    for (var di = 0; di < dsBtns.length; di++) {
+      dsBtns[di].addEventListener('click', function (e) {
+        var newDs = e.target.dataset.dataset;
+        if (newDs === state.dataset) return;
+        stopPlayback();
+        state.dataset = newDs;
+        // Reset feature/task — render() will resolve them from the new dataset's order
+        state.featureId = null;
+        state.taskIdx = 0;
+        state.currentStep = 0;
+        loadDataset(newDs, function (data, err) {
+          if (!data) {
+            console.error('[steering-viz] failed loading dataset ' + newDs + ': ' + err);
+            return;
+          }
+          render();
+        });
+      });
+    }
 
     // Feature toggle
     var featureBtns = container.querySelectorAll('.sv-feature-toggle .viz-toggle-btn');
@@ -596,13 +663,20 @@
     var container = document.getElementById('steering-viz');
     if (!container) return;
 
-    loadData(function (data, err) {
+    // Load the default dataset first; preload the other in the background so
+    // toggling is instant.
+    loadDataset(state.dataset, function (data, err) {
       if (!data) {
         console.error('[steering-viz] ' + err);
-        container.innerHTML = '<p style="color: #e53e3e;">Failed to load steering data: ' + (err || 'unknown error') + '</p>';
+        container.innerHTML = '<p style="color: #e53e3e;">Failed to load steering data (' + state.dataset + '): ' + (err || 'unknown error') + '</p>';
         return;
       }
       render();
+      // Prefetch the other dataset
+      for (var i = 0; i < DATASET_ORDER.length; i++) {
+        var k = DATASET_ORDER[i];
+        if (k !== state.dataset) loadDataset(k, function () {});
+      }
     });
   }
 
