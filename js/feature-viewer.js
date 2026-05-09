@@ -242,7 +242,113 @@
         { rank: 9, episode_id: 458, timestep: 149, activation: 0.5389, task: 'Get the strawberry toy from the right front plate of the stove and put it in the sink' },
         { rank: 10, episode_id: 1036, timestep: 286, activation: 0.5378, task: 'Put the spoon in the pot' }
       ]
-    }
+    },
+
+    {
+      id: 1784,
+      label: "Sponge Semantics",
+      shortLabel: "Sponge",
+      description: "Activates when a sponge is the target object in the scene. Used as a steering target for sponge-related semantic interventions in the closed-loop DROID rollouts.",
+      stats: {
+        episode_coverage: 0.138,
+        mean_onset_count: 1.00,
+        mean_nonzero_activation: 0.058,
+        mean_relative_run_length: 0.870
+      },
+      classification: 'general',
+      color: '#4fd1c5',
+      episodes: [
+        { rank: 1, episode_id: 283, timestep: 147, activation: 0.3030, task: "Move the faucet handle on the right to the left" },
+        { rank: 2, episode_id: 429, timestep: 443, activation: 0.2541, task: "Use the spoon to stir the black cup" },
+        { rank: 3, episode_id: 17, timestep: 146, activation: 0.2381, task: "Lay the coffee cup on the counter" },
+        { rank: 4, episode_id: 1811, timestep: 18, activation: 0.2204, task: "Put the lid on the small pot" },
+        { rank: 5, episode_id: 1766, timestep: 138, activation: 0.2084, task: "Close the water tap." },
+        { rank: 6, episode_id: 1924, timestep: 368, activation: 0.2032, task: "Turn the tin upside down" },
+        { rank: 7, episode_id: 1275, timestep: 234, activation: 0.1609, task: "Move the left bottle and the blue sponge closer to you, respectively" },
+        { rank: 8, episode_id: 524, timestep: 263, activation: 0.1462, task: "Pick up the purple knife and put it on top of the purple cup" },
+        { rank: 9, episode_id: 1745, timestep: 234, activation: 0.1443, task: "Move the yellow sticky notepad to the left side of the table" },
+        { rank: 10, episode_id: 1855, timestep: 526, activation: 0.1331, task: "Put the three black objects in the open drawer and close it" },
+      ]
+    },
+    {
+      id: 8,
+      label: "Towel Semantics",
+      shortLabel: "Towel",
+      description: "Activates when a towel or cloth is the target object in the scene. Used as a steering target for towel-related semantic interventions in the closed-loop DROID rollouts.",
+      stats: {
+        episode_coverage: 0.273,
+        mean_onset_count: 1.10,
+        mean_nonzero_activation: 0.045,
+        mean_relative_run_length: 0.390
+      },
+      classification: 'general',
+      color: '#9f7aea',
+      episodes: [
+        { rank: 1, episode_id: 253, timestep: 70, activation: 0.3295, task: "Use the white towel farthest from you to wipe the pan" },
+        { rank: 2, episode_id: 1364, timestep: 210, activation: 0.2386, task: "Take the towel and clean the central part of the  bathing room sink, and then hang back the towel" },
+        { rank: 3, episode_id: 849, timestep: 239, activation: 0.2206, task: "Wipe the table with the cloth and move the orange ball to the left" },
+        { rank: 4, episode_id: 1817, timestep: 195, activation: 0.2107, task: "Unhang the towel, wipe the base top and hang it back" },
+        { rank: 5, episode_id: 632, timestep: 236, activation: 0.2050, task: "Use the white towel to wipe the table" },
+        { rank: 6, episode_id: 1336, timestep: 599, activation: 0.1993, task: "Pick up the cloth and clean the plate" },
+        { rank: 7, episode_id: 1930, timestep: 134, activation: 0.1948, task: "Pick up the towel and clean the other end of the table" },
+        { rank: 8, episode_id: 223, timestep: 293, activation: 0.1904, task: "Move the silver pot to the right side of the table, use the white and blue towel to wipe the table" },
+        { rank: 9, episode_id: 341, timestep: 112, activation: 0.1872, task: "Use the yellow towel to wipe the table" },
+        { rank: 10, episode_id: 1257, timestep: 36, activation: 0.1866, task: "Use the yellow towel to wipe the table" },
+      ]
+    },
+    {
+      id: 1727,
+      label: "Toy Semantics",
+      shortLabel: "Toy",
+      description: "Activates when a plush or toy object is the target in the scene. Used as a steering target for toy-related semantic interventions in the closed-loop DROID rollouts.",
+      stats: {
+        episode_coverage: 0.428,
+        mean_onset_count: 1.12,
+        mean_nonzero_activation: 0.033,
+        mean_relative_run_length: 0.359
+      },
+      classification: 'general',
+      color: '#f6ad55',
+      episodes: [
+        { rank: 1, episode_id: 1543, timestep: 124, activation: 0.1643, task: "Put the yellow building block in the bag" },
+        { rank: 2, episode_id: 1284, timestep: 135, activation: 0.1553, task: "Put the orange ring on the stake" },
+        { rank: 3, episode_id: 113, timestep: 89, activation: 0.1544, task: "Put the yellow spiky toy in the green bowl" },
+        { rank: 4, episode_id: 286, timestep: 49, activation: 0.1514, task: "droid_task" },
+        { rank: 5, episode_id: 1373, timestep: 266, activation: 0.1500, task: "Fold the right sleeve of the orange shirt then fold the shirt from bottom to top" },
+        { rank: 6, episode_id: 1656, timestep: 335, activation: 0.1335, task: "Fold the paper towel in half" },
+        { rank: 7, episode_id: 1302, timestep: 213, activation: 0.1284, task: "Remove the red lid from the bowl, then put the plastic in the bowl and put the lid on the bowl" },
+        { rank: 8, episode_id: 1642, timestep: 92, activation: 0.1277, task: "Place some white sachets in the wooden box." },
+        { rank: 9, episode_id: 1446, timestep: 275, activation: 0.1237, task: "Clean the table" },
+        { rank: 10, episode_id: 1511, timestep: 97, activation: 0.1236, task: "Put the green bear plush toy in the green bowl" },
+      ]
+    },
+    {
+      id: 1432,
+      label: "Mug Semantics",
+      shortLabel: "Mug",
+      description: "Activates when a mug or cup is the target object in the scene. Used as a steering target for mug-related semantic interventions in the closed-loop DROID rollouts.",
+      stats: {
+        episode_coverage: 0.158,
+        mean_onset_count: 1.86,
+        mean_nonzero_activation: 0.051,
+        mean_relative_run_length: 0.435
+      },
+      classification: 'general',
+      color: '#fc8181',
+      episodes: [
+        { rank: 1, episode_id: 1167, timestep: 779, activation: 0.5017, task: "droid_task" },
+        { rank: 2, episode_id: 797, timestep: 374, activation: 0.4744, task: "droid_task" },
+        { rank: 3, episode_id: 846, timestep: 562, activation: 0.4742, task: "droid_task" },
+        { rank: 4, episode_id: 443, timestep: 442, activation: 0.4222, task: "droid_task" },
+        { rank: 5, episode_id: 1825, timestep: 405, activation: 0.1725, task: "droid_task" },
+        { rank: 6, episode_id: 1173, timestep: 14, activation: 0.1587, task: "droid_task" },
+        { rank: 7, episode_id: 48, timestep: 1426, activation: 0.1010, task: "droid_task" },
+        { rank: 8, episode_id: 144, timestep: 106, activation: 0.1000, task: "Remove the white cloth from the tripod stand" },
+        { rank: 9, episode_id: 1482, timestep: 19, activation: 0.0883, task: "Press a button on the stove" },
+        { rank: 10, episode_id: 973, timestep: 86, activation: 0.0879, task: "Pick up the screw driver and put it in the drawer, then close the drawer" },
+      ]
+    },
+
   ];
 
   // ------------------------------------------------------------------
