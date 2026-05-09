@@ -732,6 +732,12 @@ main {
   margin-bottom: 32px;
 }
 
+/* Forces a wrap mid-row inside .fv-tabs (used to put extra features on a new line). */
+.fv-tabs-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
 .fv-tab {
   background: var(--section-bg);
   border: 1px solid var(--card-border);

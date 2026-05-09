@@ -322,32 +322,6 @@
         { rank: 10, episode_id: 1511, timestep: 97, activation: 0.1236, task: "Put the green bear plush toy in the green bowl" },
       ]
     },
-    {
-      id: 1432,
-      label: "Mug Semantics",
-      shortLabel: "Mug",
-      description: "Activates when a mug or cup is the target object in the scene. Used as a steering target for mug-related semantic interventions in the closed-loop DROID rollouts.",
-      stats: {
-        episode_coverage: 0.158,
-        mean_onset_count: 1.86,
-        mean_nonzero_activation: 0.051,
-        mean_relative_run_length: 0.435
-      },
-      classification: 'general',
-      color: '#fc8181',
-      episodes: [
-        { rank: 1, episode_id: 1167, timestep: 779, activation: 0.5017, task: "droid_task" },
-        { rank: 2, episode_id: 797, timestep: 374, activation: 0.4744, task: "droid_task" },
-        { rank: 3, episode_id: 846, timestep: 562, activation: 0.4742, task: "droid_task" },
-        { rank: 4, episode_id: 443, timestep: 442, activation: 0.4222, task: "droid_task" },
-        { rank: 5, episode_id: 1825, timestep: 405, activation: 0.1725, task: "droid_task" },
-        { rank: 6, episode_id: 1173, timestep: 14, activation: 0.1587, task: "droid_task" },
-        { rank: 7, episode_id: 48, timestep: 1426, activation: 0.1010, task: "droid_task" },
-        { rank: 8, episode_id: 144, timestep: 106, activation: 0.1000, task: "Remove the white cloth from the tripod stand" },
-        { rank: 9, episode_id: 1482, timestep: 19, activation: 0.0883, task: "Press a button on the stove" },
-        { rank: 10, episode_id: 973, timestep: 86, activation: 0.0879, task: "Pick up the screw driver and put it in the drawer, then close the drawer" },
-      ]
-    },
 
   ];
 
@@ -498,10 +472,15 @@
   // ------------------------------------------------------------------
 
   function renderTabs(features, activeId) {
-    return features.map(function (f) {
+    // Force a row break after the first 4 features so any extras (e.g. the
+    // semantic-steering targets in the DROID benchmark) appear on a second row.
+    var ROW_BREAK_AFTER = 4;
+    return features.map(function (f, i) {
       var isActive = f.id === activeId;
       var cls = isActive ? 'fv-tab fv-tab--active' : 'fv-tab';
-      return '<button class="' + cls + '" data-fid="' + f.id + '">F' + f.id + ' ' + f.shortLabel + '</button>';
+      var btn = '<button class="' + cls + '" data-fid="' + f.id + '">F' + f.id + ' ' + f.shortLabel + '</button>';
+      var needsBreak = (i + 1 === ROW_BREAK_AFTER) && (features.length > ROW_BREAK_AFTER);
+      return btn + (needsBreak ? '<div class="fv-tabs-break"></div>' : '');
     }).join('');
   }
 
