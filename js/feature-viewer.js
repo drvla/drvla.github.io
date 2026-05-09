@@ -255,7 +255,6 @@
         mean_nonzero_activation: 0.058,
         mean_relative_run_length: 0.870
       },
-      classification: 'general',
       color: '#4fd1c5',
       episodes: [
         { rank: 1, episode_id: 283, timestep: 147, activation: 0.3030, task: "Move the faucet handle on the right to the left" },
@@ -281,7 +280,6 @@
         mean_nonzero_activation: 0.045,
         mean_relative_run_length: 0.390
       },
-      classification: 'general',
       color: '#9f7aea',
       episodes: [
         { rank: 1, episode_id: 253, timestep: 70, activation: 0.3295, task: "Use the white towel farthest from you to wipe the pan" },
@@ -307,7 +305,6 @@
         mean_nonzero_activation: 0.033,
         mean_relative_run_length: 0.359
       },
-      classification: 'general',
       color: '#f6ad55',
       episodes: [
         { rank: 1, episode_id: 1543, timestep: 124, activation: 0.1643, task: "Put the yellow building block in the bag" },
@@ -411,6 +408,7 @@
   // ------------------------------------------------------------------
 
   function classificationBadge(classification) {
+    if (!classification) return '';
     var color = classification === 'general' ? 'var(--clr-general, #22c55e)' : 'var(--clr-memorized, #f59e0b)';
     var label = classification.charAt(0).toUpperCase() + classification.slice(1);
     return '<span class="fv-badge" style="background:' + color + ';color:#fff;padding:2px 10px;border-radius:12px;font-size:0.78rem;font-weight:600;margin-left:8px;vertical-align:middle;">' + label + '</span>';
