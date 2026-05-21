@@ -1,5 +1,5 @@
 /**
- * steering-viz.js -- Interactive steering visualization for DRVLA website
+ * steering-viz.js -- Interactive steering visualization for the project website
  *
  * Displays side-by-side baseline/steered videos with synced XYZ trajectory
  * charts for two steering features (F128, F1902). SVG charts overlay all

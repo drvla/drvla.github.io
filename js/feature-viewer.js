@@ -1,7 +1,7 @@
 /**
  * feature-viewer.js -- Interactive curated feature viewer
  *
- * Displays a tabbed interface for curated DRVLA features from LIBERO and DROID.
+ * Displays a tabbed interface for curated project features from LIBERO and DROID.
  * Each benchmark tab shows its own set of features with summary statistics
  * and top-10 activating episode images (main + wrist cameras).
  *

@@ -1,5 +1,5 @@
 /**
- * activation-viz.js -- Interactive activation visualization for DRVLA website
+ * activation-viz.js -- Interactive activation visualization for the project website
  *
  * Renders image strip + heatmap bars for SAE feature activations.
  * Single container with LIBERO/DROID benchmark toggle and episode tabs.
