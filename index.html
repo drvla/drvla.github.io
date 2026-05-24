@@ -31,7 +31,7 @@
       <a href="#general-features">General Features</a>
       <a href="#feature-viewer">Feature Viewer</a>
       <a href="#steering">Steering</a>
-      <a href="#classification">Classification</a>
+      <!-- <a href="#classification">Classification</a> -->
       <a href="#per-token">Per-Token</a>
       <a href="#feature-browser">Feature Browser</a>
     </nav>
@@ -56,13 +56,13 @@
       <div class="section">
         <h2>Abstract</h2>
         <p class="abstract-tldr">
-          We train Sparse Autoencoders (SAEs) on VLA model activations to discover interpretable features corresponding to motion primitives, semantics, and episode-specific memorization. We show these features causally influence robot behavior through steering experiments, and that fine-tuning on small datasets amplifies memorization while larger datasets or techniques like knowledge insulation promote general features.
+          We train Sparse Autoencoders (SAEs) on the hidden-layer activations of Vision-Language-Action (VLA) models, surfacing interpretable features for motion primitives and semantic concepts, plus a metric that distinguishes general transferable features from episode-specific memorizations. Steering experiments on the LIBERO simulation benchmark and on real-world DROID hardware show these features causally drive behavior -- amplifying general and semantic features induces predictable actions, while ablating them destroys performance.
         </p>
         <details class="abstract-details">
           <summary>Read full abstract</summary>
           <div class="abstract-full">
             <p>
-              Vision-Language-Action (VLA) models have emerged as a promising approach for general-purpose robot manipulation. However, their generalization is inconsistent, while these models can perform impressively in some settings, fine-tuned variants often fail on novel objects, scenes, and instructions. We apply mechanistic interpretability techniques to better understand the inner workings of VLA models. To probe internal representations, we train Sparse Autoencoders (SAEs) on hidden layer activations from both the language backbone and the action expert. SAEs learn a sparse dictionary whose features act as a compact, interpretable basis for the model's computation. We find that SAEs extract interpretable, general, and steerable features corresponding to motion primitives, semantics, and episode-specific memorization. We categorize features according to whether they represent generalizable transferable primitives or episode-specific memorization. We validate these findings through steering experiments on the LIBERO benchmark. We show that individual SAE features causally influence robot behavior. Steering "generalization" features induce behaviors consistent with their semantic meaning and applicable across tasks and scenes. Our results provide the first mechanistic evidence that VLAs learn generalizable features across tasks and scenes. These results provide mechanistic evidence that VLAs contain both transferable representations and brittle, dataset-specific memorization. We further show that supervised fine-tuning on small robotics datasets disproportionately amplifies memorization, whereas training on larger, more diverse datasets, such as DROID, or leveraging techniques like knowledge insulation appear to promote more general features. Finally, we release an open-source codebase for activation collection, SAE training, and feature steering in VLA models.
+              Vision-Language-Action (VLA) models have emerged as a promising approach for general-purpose robot manipulation. However, little research has mechanistically explored when and why they generalize across objects, scenes, and instructions. To probe internal representations, we train Sparse Autoencoders (SAEs) on the VLA's hidden-layer activations. SAEs learn sparse dictionaries over model activations, often revealing features that correspond to interpretable directions in the model's representation space. We identify SAE features corresponding to motion primitives and semantic concepts, including features that are general across episodes and causally steerable. We propose a metric to categorize features as general transferable primitives or episode-specific memorizations, offering a promising glimpse towards VLA generalization. We validate these findings through steering experiments on both the LIBERO simulation benchmark and on real-world DROID hardware. We find that amplifying general and semantic features induces behaviors consistent with their meanings, whereas ablating them destroys model performance. Furthermore, we demonstrate steering as a way to control behavior in unpromptable directions. Together, these results provide the first mechanistic evidence that VLAs can learn reusable internal features linking perception, language, and action across tasks and scenes.
             </p>
           </div>
         </details>
@@ -170,7 +170,8 @@
       </div>
     </div>
 
-    <!-- ============================== Feature Classification ============================== -->
+    <!-- ============================== Feature Classification (commented out) ============================== -->
+    <!-- COMMENTED OUT
     <div class="section-wrapper section-alt" id="classification">
       <div class="section">
         <h2>Feature Classification</h2>
@@ -259,6 +260,7 @@
         </p>
       </div>
     </div>
+    END COMMENTED OUT -->
 
     <!-- ============================== Per-Token SAEs ============================== -->
     <div class="section-wrapper" id="per-token">
@@ -304,6 +306,6 @@
   <script src="js/feature-browser.js"></script>
   <script src="js/steering-viz.js"></script>
   <script src="js/manual-heatmap-viz.js"></script>
-  <script src="js/metric-histograms.js"></script>
+  <!-- <script src="js/metric-histograms.js"></script> -->
 </body>
 </html>

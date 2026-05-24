@@ -319,7 +319,32 @@
         { rank: 10, episode_id: 1511, timestep: 97, activation: 0.1236, task: "Put the green bear plush toy in the green bowl" },
       ]
     },
-
+,
+    {
+      id: 39,
+      label: "Mug Semantics",
+      shortLabel: "Mug",
+      description: "Activates when a mug or cup is the target object in the scene. Used as a steering target for mug-related semantic interventions in the closed-loop DROID rollouts.",
+      stats: {
+        episode_coverage: 0.056,
+        mean_onset_count: 1.00,
+        mean_nonzero_activation: 0.082,
+        mean_relative_run_length: 0.982
+      },
+      color: '#fc8181',
+      episodes: [
+        { rank: 1, episode_id: 1264, timestep: 148, activation: 0.4148, task: "Put the pen in the cup" },
+        { rank: 2, episode_id: 886, timestep: 70, activation: 0.2927, task: "Pick up the pen and put it in the yellow cup" },
+        { rank: 3, episode_id: 1123, timestep: 27, activation: 0.2900, task: "Take the pen from the cup and put it on the table" },
+        { rank: 4, episode_id: 1993, timestep: 178, activation: 0.2260, task: "Pick the marker from the cup and put it on the table" },
+        { rank: 5, episode_id: 1445, timestep: 151, activation: 0.2221, task: "Put the orange object in the cup" },
+        { rank: 6, episode_id: 233, timestep: 247, activation: 0.2171, task: "Put the marker in the white mug" },
+        { rank: 7, episode_id: 580, timestep: 164, activation: 0.2102, task: "Put the marker inside the mug cup" },
+        { rank: 8, episode_id: 1141, timestep: 35, activation: 0.1705, task: "Move the mug to the left then to the right" },
+        { rank: 9, episode_id: 1417, timestep: 157, activation: 0.1683, task: "Put the pen in the mug" },
+        { rank: 10, episode_id: 531, timestep: 120, activation: 0.1463, task: "Get the white mug on the table and move it to the right" },
+      ]
+    }
   ];
 
   // ------------------------------------------------------------------

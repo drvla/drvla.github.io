@@ -563,6 +563,19 @@
     rafId = requestAnimationFrame(animLoop);
   }
 
+  function seekVideo(video, time) {
+    // fastSeek snaps to the nearest keyframe -- much cheaper than precise
+    // currentTime when keyframes are spaced (we encode -g 5 = 0.5s).
+    // Supported in Safari + Firefox; in Chromium it's missing so we fall
+    // back to currentTime. The precision loss is at most one keyframe
+    // interval, which is fine while dragging.
+    if (typeof video.fastSeek === 'function') {
+      video.fastSeek(time);
+    } else {
+      video.currentTime = time;
+    }
+  }
+
   function seekToStep(step) {
     var task = getTask();
     var maxStep = maxStepsForTask(task);
@@ -570,8 +583,8 @@
     state.currentStep = step;
 
     var time = step / VIDEO_FPS;
-    if (baselineVideo) baselineVideo.currentTime = time;
-    if (steeredVideo) steeredVideo.currentTime = time;
+    if (baselineVideo) seekVideo(baselineVideo, time);
+    if (steeredVideo) seekVideo(steeredVideo, time);
 
     updateCursor(step);
   }
