@@ -2272,3 +2272,76 @@ main {
     font-size: 0.6rem;
   }
 }
+
+/* ============================================================
+   Acceptance Banner
+   ============================================================ */
+
+.accept-banner {
+  /* main has margin-top: 60px against a 48px fixed nav; cancel the 12px
+     leftover so the banner sits flush under the nav bar. */
+  margin-top: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #eef4ff 0%, #e8f0ff 50%, #eef4ff 100%);
+  border-bottom: 1px solid #d3e0fb;
+  text-align: center;
+}
+
+.accept-banner-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1c3f86;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   Citation
+   ============================================================ */
+
+.bibtex-copy {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(205, 214, 244, 0.12);
+  color: #cdd6f4;
+  border: 1px solid rgba(205, 214, 244, 0.25);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.bibtex-copy:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.bibtex-copy.copied {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .accept-banner {
+    padding: 10px 16px;
+  }
+
+  .accept-banner-text {
+    font-size: 0.92rem;
+  }
+
+  .bibtex-copy {
+    position: static;
+    display: block;
+    margin: 0 0 12px auto;
+  }
+}
